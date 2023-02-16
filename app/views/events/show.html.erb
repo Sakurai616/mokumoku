@@ -42,6 +42,9 @@
         <div class="card-header">
           <i class="bi bi-info-circle"></i>
           イベントの説明
+          <% if @event.only_woman? %>
+            <p>女性限定<p>
+          <% end %>
         </div>
         <div class="card-body">
           <%= simple_format @event.content %>
@@ -85,6 +88,8 @@
           <div class="text-center">
             <% if logged_in? %>
               <% if !current_user.owner?(@event) %>
+                <% if @event.only_woman? && !current_user.woman? %>
+                <% else %>
                 <% if current_user.attend?(@event) %>
                   <%= link_to 'キャンセルする',
                               event_attendance_url(@event),
@@ -102,6 +107,7 @@
                 <% end %>
               <% end %>
             <% end %>
+          <% end %>
           </div>
         </div>
       </div>
